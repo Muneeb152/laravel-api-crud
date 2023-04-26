@@ -141,16 +141,15 @@ class StudentController extends Controller
         else
         {
             $student=Student::find($id);
-            $student->update([
-                'name' =>  $request->name,
-                'course' => $request->course,
-                'email' => $request->email,
-                'phone' => $request->phone,
-
-            ]);
-
             if($student)
             {
+                $student->update([
+                    'name' =>  $request->name,
+                    'course' => $request->course,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+    
+                ]);    
                 return response()->json([
                     'status' => 200,
                     'message' => "Student Updated successfully"
