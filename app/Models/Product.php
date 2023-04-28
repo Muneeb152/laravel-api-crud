@@ -17,5 +17,9 @@ class Product extends Model
 
     ];
     
+    public function discounts()
+    {
+        return $this->belongsToMany(Discount::class)->withPivot('value');
+    }
 
 }
