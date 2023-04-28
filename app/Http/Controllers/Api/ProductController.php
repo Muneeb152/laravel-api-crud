@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Student;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class StudentController extends Controller
+class ProductController extends Controller
 {
     //
     public function index()
     {
-        $students=Student::all();
-        // $data=[
-        //     'status'=>200,
-        //      'students'=>$students
-        // ]
-        if($students->count() > 0)
+        $product=Product::all();
+        if($product->count() > 0)
         {
             return response()->json(
                 [
                     'status'=>200,
-                     'students'=>$students
+                     'products'=>$product
                 ],200);
         }
         else
@@ -40,9 +36,9 @@ class StudentController extends Controller
     {
         $validator=Validator::make($request->all(),[
             'name' => 'required|string|max:191',
-            'course' => 'required|string|max:191',
-            'email' => 'required|email|max:191',
-            'phone' => 'required|numeric'
+            'items' => 'required|numeric',
+            'discount' => 'required|numeric',
+            'description' => 'required|string|max:191'
         ]);
 
         if($validator->fails()){
@@ -53,19 +49,19 @@ class StudentController extends Controller
         }
         else
         {
-            $student=Student::create([
+            $product=Product::create([
                 'name' =>  $request->name,
-                'course' => $request->course,
-                'email' => $request->email,
-                'phone' => $request->phone,
+                'items' => $request->items,
+                'discount' => $request->discount,
+                'description' => $request->description,
 
             ]);
 
-            if($student)
+            if($product)
             {
                 return response()->json([
                     'status' => 200,
-                    'message' => "Student created successfully"
+                    'message' => "Product created successfully"
 
                 ],200);
             }
@@ -81,12 +77,12 @@ class StudentController extends Controller
     }
     public function show($id)
     {
-        $student=Student::find($id);
-        if($student)
+        $product=Product::find($id);
+        if($product)
         {
             return response()->json([
                 'status' => 200,
-                'student' => $student
+                'products' => $product
             ],200);
 
         }
@@ -94,19 +90,19 @@ class StudentController extends Controller
         {
             return response()->json([
                 'status' => 404,
-                'message' => "No Such Student found!"
+                'message' => "No Such Product found!"
             ],404);
 
         }
     }
     public function edit($id)
     {
-        $student=Student::find($id);
-        if($student)
+        $product=Product::find($id);
+        if($product)
         {
             return response()->json([
                 'status' => 200,
-                'student' => $student
+                'product' => $product
             ],200);
 
         }
@@ -114,7 +110,7 @@ class StudentController extends Controller
         {
             return response()->json([
                 'status' => 404,
-                'message' => "No Such Student found!"
+                'message' => "No Such Product found!"
             ],404);
 
         }
@@ -127,9 +123,9 @@ class StudentController extends Controller
         
         $validator=Validator::make($request->all(),[
             'name' => 'required|string|max:191',
-            'course' => 'required|string|max:191',
-            'email' => 'required|email|max:191',
-            'phone' => 'required|numeric'
+            'items' => 'required|numeric',
+            'discount' => 'required|numeric',
+            'description' => 'required|string|max:191'
         ]);
 
         if($validator->fails()){
@@ -140,19 +136,19 @@ class StudentController extends Controller
         }
         else
         {
-            $student=Student::find($id);
-            if($student)
+            $product=Product::find($id);
+            if($product)
             {
-                $student->update([
+                $product->update([
                     'name' =>  $request->name,
-                    'course' => $request->course,
-                    'email' => $request->email,
-                    'phone' => $request->phone,
+                    'items' => $request->items,
+                    'discount' => $request->discount,
+                    'description' => $request->description,
     
                 ]);    
                 return response()->json([
                     'status' => 200,
-                    'message' => "Student Updated successfully"
+                    'message' => "Product Updated successfully"
 
                 ],200);
             }
@@ -160,7 +156,7 @@ class StudentController extends Controller
             {
                 return response()->json([
                     'status' => 404,
-                    'message' => "No Such Student Found!"
+                    'message' => "No Such Product Found!"
                 ],500);
 
             }
@@ -171,20 +167,20 @@ class StudentController extends Controller
 
     public function destroy(int $id)
     {
-          $student=Student::find($id);
-          if($student)
+          $product=Product::find($id);
+          if($product)
           {
-            $student->delete();
+            $product->delete();
             return response()->json([
                 'status' => 200,
-                'message' => "Student deleted Sucessfully!"
+                'message' => "Product deleted Sucessfully!"
             ],200);    
 
           }
           else{
             return response()->json([
                 'status' => 404,
-                'message' => "No Such Student Found!"
+                'message' => "No Such Product Found!"
             ],500);            
           }
 
